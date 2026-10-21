@@ -1,4 +1,4 @@
-import CallButton from './CallButton';
+import CallButton from "./CallButton";
 
 export default function Page() {
   return (
