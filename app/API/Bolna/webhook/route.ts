@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { timingSafeEqual } from 'crypto';
 import { findByExecutionId, updateCall } from '@/lib/db';
 
-export const runtime = 'nodejs';
 
 function safeEqual(a: string, b: string) {
   const ab = Buffer.from(a);

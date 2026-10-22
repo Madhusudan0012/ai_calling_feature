@@ -2,8 +2,7 @@ import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/user';
 import { createCall, updateCall, lastCallAt } from '@/lib/db';
 
-export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic';
+
 
 const COOLDOWN_MS = 60_000;
 const E164 = /^\+[1-9]\d{7,14}$/;
@@ -13,6 +12,7 @@ export async function POST() {
   if (!user) {
     return NextResponse.json({ error: 'Please sign in to get a call.' }, { status: 401 });
   }
+  console.log('PHONE VALUE:', JSON.stringify(user.phone));
   if (!E164.test(user.phone)) {
     return NextResponse.json(
       { error: 'Your phone number is missing or invalid. Update it in your profile.' },
@@ -51,7 +51,7 @@ export async function POST() {
       console.error('Bolna error', res.status, detail);
       updateCall(call.id, { status: 'failed' });
       return NextResponse.json(
-        { error: 'We could not start the call. Please try again in a moment.' },
+        { error: `Bolna ${res.status}: ${detail}` },
         { status: 502 }
       );
     }
